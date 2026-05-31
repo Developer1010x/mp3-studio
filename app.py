@@ -205,6 +205,18 @@ class MP3Studio(ctk.CTk):
         )
         self.lyrics_box.grid(row=1, column=0, sticky="nsew", padx=10, pady=(0, 10))
 
+    # 5-band EQ presets: (bass, low_mid, mid, high_mid, treble) gains in dB.
+    # "Flat" zeroes everything; keys must match self.eq_vars / band_ranges.
+    EQ_PRESETS: dict[str, dict[str, float]] = {
+        "Flat":         {"bass": 0,    "low_mid": 0,    "mid": 0,    "high_mid": 0,   "treble": 0},
+        "Bass Boost":   {"bass": 7.0,  "low_mid": 3.5,  "mid": 0,    "high_mid": 0,   "treble": 1.0},
+        "Treble Boost": {"bass": 0,    "low_mid": 0,    "mid": 0,    "high_mid": 4.0, "treble": 7.0},
+        "Vocal Boost":  {"bass": -2.0, "low_mid": 1.0,  "mid": 5.0,  "high_mid": 3.0, "treble": 0},
+        "Loudness":     {"bass": 6.0,  "low_mid": 1.5,  "mid": -1.0, "high_mid": 2.0, "treble": 5.0},
+        "Podcast":      {"bass": -4.0, "low_mid": 1.0,  "mid": 4.0,  "high_mid": 2.5, "treble": -1.0},
+        "Acoustic":     {"bass": 3.0,  "low_mid": 1.0,  "mid": 1.5,  "high_mid": 2.5, "treble": 3.5},
+    }
+
     def _build_eq_tab(self):
         tab = self.tabs.tab("Audio EQ")
         tab.grid_columnconfigure(0, weight=1)
@@ -218,6 +230,21 @@ class MP3Studio(ctk.CTk):
             text_color="gray", font=ctk.CTkFont(size=11)
         ).pack()
 
+        # ── Preset selector ──
+        preset_row = ctk.CTkFrame(tab, fg_color="transparent")
+        preset_row.pack(pady=(8, 0))
+        ctk.CTkLabel(
+            preset_row, text="Preset:", font=ctk.CTkFont(size=12, weight="bold")
+        ).pack(side="left", padx=(0, 8))
+        self.eq_preset_menu = ctk.CTkOptionMenu(
+            preset_row,
+            values=list(self.EQ_PRESETS.keys()),
+            command=self._apply_eq_preset,
+            width=160,
+        )
+        self.eq_preset_menu.set("Flat")
+        self.eq_preset_menu.pack(side="left")
+
         bands_frame = ctk.CTkFrame(tab)
         bands_frame.pack(fill="x", padx=20, pady=16)
 
@@ -230,6 +257,7 @@ class MP3Studio(ctk.CTk):
         ]
 
         self.eq_vars: dict[str, tk.DoubleVar] = {}
+        self.eq_value_labels: dict[str, ctk.CTkLabel] = {}
 
         for i, (label, key, lo, hi) in enumerate(bands):
             col = ctk.CTkFrame(bands_frame, fg_color="transparent")
@@ -246,6 +274,7 @@ class MP3Studio(ctk.CTk):
 
             val_lbl = ctk.CTkLabel(col, text=" 0.0 dB", width=60, font=ctk.CTkFont(size=11))
             val_lbl.pack()
+            self.eq_value_labels[key] = val_lbl
 
             def _make_cb(lbl):
                 def cb(v):
@@ -1055,9 +1084,25 @@ class MP3Studio(ctk.CTk):
             self.fields[key].delete(0, "end")
             self.fields[key].insert(0, value)
 
+    def _apply_eq_preset(self, name: str):
+        """Set the 5 EQ sliders to a named preset and refresh their value labels."""
+        preset = self.EQ_PRESETS.get(name)
+        if not preset:
+            return
+        for key, gain in preset.items():
+            if key in self.eq_vars:
+                self.eq_vars[key].set(float(gain))
+            lbl = self.eq_value_labels.get(key)
+            if lbl is not None:
+                lbl.configure(text=f"{float(gain):+.1f} dB")
+
     def _reset_eq(self):
-        for var in self.eq_vars.values():
+        for key, var in self.eq_vars.items():
             var.set(0.0)
+            lbl = self.eq_value_labels.get(key)
+            if lbl is not None:
+                lbl.configure(text="+0.0 dB")
+        self.eq_preset_menu.set("Flat")
         self.speed_var.set(1.0)
         self.speed_lbl.configure(text="1.0×")
         self.normalize_var.set(False)

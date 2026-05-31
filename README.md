@@ -12,8 +12,11 @@ A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ 
 - **Album art** — upload your own image or auto-fetch from iTunes
 - **Lyrics** — auto-fetch from Lyrics.ovh, or paste your own
 - **5-Band EQ** — Bass / Low Mid / Mid / High Mid / Treble (±12 dB each)
+- **EQ presets** — one-click curves (Bass Boost, Treble Boost, Vocal Boost, Loudness, Podcast, Acoustic, Flat) that set all five bands instantly
 - **Extra effects** — Normalize volume, Stereo enhance, Playback speed
+- **Bulk downloader** — paste YouTube / SoundCloud / playlist URLs (1000+ sites via yt-dlp) and download as 320 kbps MP3, auto-tagged with metadata, art & lyrics
 - **Batch queue** — load multiple MP3s and switch between them
+- **Bulk export** — apply EQ/effects and export every file in the queue at once
 - **Non-destructive** — EQ is only applied on Export; Save Metadata edits tags in-place
 
 ---
@@ -66,9 +69,10 @@ That's it. No API keys needed.
 ### EQ / Export
 
 1. Go to the **Audio EQ** tab
-2. Adjust the 5 EQ sliders (drag up = boost, down = cut)
+2. Pick a **Preset** for an instant curve, or adjust the 5 EQ sliders manually (drag up = boost, down = cut)
 3. Optionally enable Normalize, Stereo Enhance, or change Speed
 4. Click **Export MP3** — saves a new 320 kbps file with EQ applied + metadata embedded
+5. Use **Bulk Export** to process the whole queue into one folder
 
 ---
 
