@@ -1,6 +1,6 @@
 # MP3 Studio
 
-A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ before exporting — so your tracks look and sound great in Apple Music.
+A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ before exporting, so your tracks look and sound great in Apple Music.
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
@@ -8,22 +8,22 @@ A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ 
 
 ## Features
 
-- **Metadata editor** — Title, Artist, Album, Year, Genre
-- **Album art** — upload your own image or auto-fetch from iTunes
-- **Lyrics** — auto-fetch from Lyrics.ovh, or paste your own
-- **5-Band EQ** — Bass / Low Mid / Mid / High Mid / Treble (±12 dB each)
-- **EQ presets** — one-click curves (Bass Boost, Treble Boost, Vocal Boost, Loudness, Podcast, Acoustic, Flat) that set all five bands instantly
-- **Extra effects** — Normalize volume, Stereo enhance, Playback speed
-- **Bulk downloader** — paste YouTube / SoundCloud / playlist URLs (1000+ sites via yt-dlp) and download as 320 kbps MP3, auto-tagged with metadata, art & lyrics
-- **Batch queue** — load multiple MP3s and switch between them
-- **Bulk export** — apply EQ/effects and export every file in the queue at once
-- **Non-destructive** — EQ is only applied on Export; Save Metadata edits tags in-place
+- **Metadata editor**, Title, Artist, Album, Year, Genre
+- **Album art**, upload your own image or auto-fetch from iTunes
+- **Lyrics**, auto-fetch from Lyrics.ovh, or paste your own
+- **5-Band EQ**, Bass / Low Mid / Mid / High Mid / Treble (±12 dB each)
+- **EQ presets**, one-click curves (Bass Boost, Treble Boost, Vocal Boost, Loudness, Podcast, Acoustic, Flat) that set all five bands instantly
+- **Extra effects**, Normalize volume, Stereo enhance, Playback speed
+- **Bulk downloader**, paste YouTube / SoundCloud / playlist URLs (1000+ sites via yt-dlp) and download as 320 kbps MP3, auto-tagged with metadata, art & lyrics
+- **Batch queue**, load multiple MP3s and switch between them
+- **Bulk export**, apply EQ/effects and export every file in the queue at once
+- **Non-destructive**, EQ is only applied on Export; Save Metadata edits tags in-place
 
 ---
 
 ## Install
 
-### Snap (Linux) — recommended
+### Snap (Linux), recommended
 
 ```bash
 sudo snap install mp3-studio
@@ -56,7 +56,7 @@ That's it. No API keys needed.
 ## Requirements (source install only)
 
 - Python 3.10+
-- [ffmpeg](https://ffmpeg.org/download.html) — required by pydub for audio processing
+- [ffmpeg](https://ffmpeg.org/download.html), required by pydub for audio processing
 
 ### Install ffmpeg
 
@@ -80,17 +80,17 @@ sudo apt install ffmpeg
 1. Click **+ Add MP3 Files** and pick your songs
 2. Select a song from the queue on the left
 3. Fill in Artist & Title if not already detected from the filename
-4. Hit **Auto Fetch All** — pulls album art, album name, year, genre, and lyrics automatically
+4. Hit **Auto Fetch All**, pulls album art, album name, year, genre, and lyrics automatically
 5. Tweak anything manually (upload your own art, edit lyrics, etc.)
 6. Click **Save Metadata** to write tags directly to the MP3
-7. Drag the file into Apple Music — it will now show artwork and lyrics
+7. Drag the file into Apple Music, it will now show artwork and lyrics
 
 ### EQ / Export
 
 1. Go to the **Audio EQ** tab
 2. Pick a **Preset** for an instant curve, or adjust the 5 EQ sliders manually (drag up = boost, down = cut)
 3. Optionally enable Normalize, Stereo Enhance, or change Speed
-4. Click **Export MP3** — saves a new 320 kbps file with EQ applied + metadata embedded
+4. Click **Export MP3**, saves a new 320 kbps file with EQ applied + metadata embedded
 5. Use **Bulk Export** to process the whole queue into one folder
 
 ---
@@ -100,7 +100,7 @@ sudo apt install ffmpeg
 | Problem | Fix |
 |---|---|
 | `pydub` can't read MP3 | Install ffmpeg and make sure it's in PATH |
-| Lyrics not found | The song may not be in lyrics.ovh's database — paste manually |
+| Lyrics not found | The song may not be in lyrics.ovh's database, paste manually |
 | Album art not found | Try correcting the Artist/Title spelling first |
 
 ---
