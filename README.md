@@ -21,7 +21,39 @@ A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ 
 
 ---
 
-## Requirements
+## Install
+
+### Snap (Linux) — recommended
+
+```bash
+sudo snap install mp3-studio
+```
+
+ffmpeg ships inside the snap, so there is nothing else to install. The snap is
+confined: it can reach your home directory, removable media and the network, and
+nothing else.
+
+> Building it yourself:
+> ```bash
+> sudo snap install snapcraft --classic
+> snapcraft            # produces mp3-studio_1.0.0_amd64.snap
+> sudo snap install ./mp3-studio_1.0.0_amd64.snap --dangerous
+> ```
+
+### From source
+
+```bash
+git clone https://github.com/Developer1010x/mp3-studio.git
+cd mp3-studio
+pip install -r requirements.txt
+python app.py
+```
+
+That's it. No API keys needed.
+
+---
+
+## Requirements (source install only)
 
 - Python 3.10+
 - [ffmpeg](https://ffmpeg.org/download.html) — required by pydub for audio processing
@@ -40,19 +72,6 @@ Download from https://ffmpeg.org/download.html and add the `bin` folder to your 
 ```bash
 sudo apt install ffmpeg
 ```
-
----
-
-## Setup
-
-```bash
-git clone https://github.com/YOUR_USERNAME/mp3-studio.git
-cd mp3-studio
-pip install -r requirements.txt
-python app.py
-```
-
-That's it. No API keys needed.
 
 ---
 

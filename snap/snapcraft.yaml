@@ -1,0 +1,87 @@
+name: mp3-studio
+base: core22
+version: '1.0.0'
+summary: Edit MP3 metadata, album art, lyrics and EQ in one desktop app
+description: |
+  MP3 Studio is a desktop editor for your MP3 library. Fix the tags, get real
+  album art and lyrics onto the file, shape the sound with a five-band
+  equaliser, and export — so tracks look and sound right in any player.
+
+  Features:
+   * Metadata editor — title, artist, album, year, genre, written in place
+   * Album art — upload your own, or fetch automatically from iTunes
+   * Lyrics — fetch automatically, or paste your own
+   * Five-band equaliser — bass, low mid, mid, high mid, treble (±12 dB)
+   * One-click EQ presets — bass boost, treble boost, vocal, loudness,
+     podcast, acoustic, flat
+   * Extra effects — volume normalise, stereo enhance, playback speed
+   * Bulk downloader — paste URLs and download 320 kbps MP3, auto-tagged
+   * Batch queue and bulk export — apply the same treatment to many files
+   * Non-destructive — EQ is applied only on export; tag edits save in place
+
+  Everything runs locally. The only network use is fetching album art, lyrics
+  and any URLs you explicitly paste into the downloader.
+
+grade: stable
+confinement: strict
+compression: lzo
+
+architectures:
+  - build-on: amd64
+
+apps:
+  mp3-studio:
+    command: bin/mp3-studio
+    extensions: [gnome]
+    environment:
+      # pydub and yt-dlp both shell out to ffmpeg by name. A confined snap
+      # cannot see the host's copy, so the bundled one has to be on PATH.
+      PATH: $SNAP/usr/bin:$SNAP/bin:$PATH
+      # Tkinter loads its Tcl/Tk script libraries at runtime by absolute path.
+      # Without these it aborts with "Can't find a usable init.tcl".
+      TCL_LIBRARY: $SNAP/usr/share/tcltk/tcl8.6
+      TK_LIBRARY: $SNAP/usr/share/tcltk/tk8.6
+    plugs:
+      - home              # the user's music library
+      - removable-media   # libraries on external drives
+      - network           # iTunes artwork, lyrics.ovh, yt-dlp
+      - audio-playback
+      - desktop
+      - desktop-legacy
+      - wayland
+      - x11
+      - opengl
+
+parts:
+  mp3-studio:
+    plugin: python
+    source: .
+    python-requirements: [requirements.txt]
+    build-packages:
+      - python3-dev
+      - python3-tk
+      - pkg-config
+    stage-packages:
+      - python3-tk
+      - libtk8.6
+      - libtcl8.6
+      - tcl8.6
+      - tk8.6
+      - ffmpeg
+    override-build: |
+      craftctl default
+      # app.py is a single-module script, not a package, so the python plugin
+      # will not install an entry point for it. Place it on the venv's path and
+      # ship a launcher that runs it with the snap's interpreter.
+      install -Dm644 app.py "$CRAFT_PART_INSTALL/lib/mp3_studio/app.py"
+      install -d "$CRAFT_PART_INSTALL/bin"
+      cat > "$CRAFT_PART_INSTALL/bin/mp3-studio" <<'LAUNCHER'
+      #!/bin/sh
+      exec "$SNAP/bin/python3" "$SNAP/lib/mp3_studio/app.py" "$@"
+      LAUNCHER
+      chmod 755 "$CRAFT_PART_INSTALL/bin/mp3-studio"
+    prime:
+      # Trim the parts of ffmpeg's dependency tree a tag editor never touches.
+      - -usr/share/doc
+      - -usr/share/man
+      - -usr/share/lintian

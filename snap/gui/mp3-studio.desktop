@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=MP3 Studio
+GenericName=Audio Tag and EQ Editor
+Comment=Edit MP3 metadata, album art, lyrics and EQ
+Exec=mp3-studio
+Icon=${SNAP}/meta/gui/mp3-studio.png
+Terminal=false
+Categories=AudioVideo;Audio;AudioVideoEditing;
+Keywords=mp3;id3;tag;metadata;lyrics;album art;equalizer;eq;audio;
+StartupWMClass=app.py
