@@ -2,7 +2,7 @@
 
 A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ before exporting, so your tracks look and sound great in Apple Music.
 
-![Python](https://img.shields.io/badge/python-3.10+-blue) ![License](https://img.shields.io/badge/license-MIT-green)
+![Python: 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white) ![Packaging: Snap](https://img.shields.io/badge/Packaging-Snap-E95420?logo=snapcraft&logoColor=white) ![Audio: ffmpeg](https://img.shields.io/badge/Audio-ffmpeg-007808?logo=ffmpeg&logoColor=white) [![License: MIT](https://img.shields.io/badge/License-MIT-2EA44F)](LICENSE)
 
 ---
 
@@ -23,22 +23,19 @@ A desktop app to edit MP3 metadata, auto-fetch album art & lyrics, and apply EQ 
 
 ## Install
 
-### Snap (Linux), recommended
+### Snap (Linux), build locally
+
+The app is packaged as a snap but is not yet published in the Snap Store, so build it yourself:
 
 ```bash
-sudo snap install mp3-studio
+sudo snap install snapcraft --classic
+snapcraft            # produces mp3-studio_1.0.0_amd64.snap
+sudo snap install ./mp3-studio_1.0.0_amd64.snap --dangerous
 ```
 
 ffmpeg ships inside the snap, so there is nothing else to install. The snap is
 confined: it can reach your home directory, removable media and the network, and
 nothing else.
-
-> Building it yourself:
-> ```bash
-> sudo snap install snapcraft --classic
-> snapcraft            # produces mp3-studio_1.0.0_amd64.snap
-> sudo snap install ./mp3-studio_1.0.0_amd64.snap --dangerous
-> ```
 
 ### From source
 
@@ -107,4 +104,8 @@ sudo apt install ffmpeg
 
 ## License
 
-MIT
+MIT, see [LICENSE](LICENSE).
+
+---
+
+Built by **S. Prajwall Narayana** · [Portfolio](https://sprajwallnarayana.vercel.app) · [GitHub](https://github.com/Developer1010x)
